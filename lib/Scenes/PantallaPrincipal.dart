@@ -19,7 +19,7 @@ class PantallaPrincipal extends Forge2DGame{
     // TODO: implement onLoad
     await super.onLoad();
 
-    mapComponent = await TiledComponent.load('MapaC.tmx', Vector2.all(32));
+    mapComponent = await TiledComponent.load('Actividad.tmx', Vector2.all(32));
     add(mapComponent);
 
     final capaObjGroup = mapComponent.tileMap.getLayer<ObjectGroup>('Objetos'); //Pide los objetos que estan en la capa objetos, los objetos con "cuerpo"
@@ -30,7 +30,7 @@ class PantallaPrincipal extends Forge2DGame{
     }
 
     //Ubicacion de inicio del personaje
-    Player personaje = Player(); //size/2 es el centro de la pantalla
+    Player personaje = Player(position: Vector2(size.x/1.5,0), size: size*0.1); //size/2 es el centro de la pantalla
     add(personaje);
 
   }
