@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:forge2d/src/dynamics/body.dart';
 import 'package:juego_actividad/Scenes/PantallaPrincipal.dart';
 
-import '../Scenes/MapaJuego.dart';
+import '../Game/MapaJuego.dart';
 class Ember extends SpriteAnimationComponent
     with HasGameRef<MapaJuego> {
   Ember({

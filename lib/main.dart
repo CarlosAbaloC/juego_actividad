@@ -2,7 +2,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 
-import 'Scenes/MapaJuego.dart';
+import 'Game/MapaJuego.dart';
 import 'Scenes/PantallaPrincipal.dart';
 
 

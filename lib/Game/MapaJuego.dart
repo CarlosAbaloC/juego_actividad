@@ -1,17 +1,16 @@
 
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import '../Objects/TileMapObjectBody.dart';
 import '../Players/Ember.dart';
-import '../Players/Player.dart';
 
 class MapaJuego extends FlameGame{
 
   MapaJuego();
 
+
+  late TiledComponent mapComponent;
 
   @override
   Future<void>? onLoad() async {
@@ -28,9 +27,18 @@ class MapaJuego extends FlameGame{
     ]);
 
     
-    TiledComponent mapComponent = await TiledComponent.load('Actividad.tmx', Vector2(60,30));
+    TiledComponent mapComponent = await TiledComponent.load('ActividadTiledMap.tmx', Vector2(32,32));
+    add(mapComponent);
 
-    Ember jugador = Ember(position: Vector2(200, 100));
+    ObjectGroup? estrellas = mapComponent.tileMap.getLayer<ObjectGroup>("Estrellas");
+    ObjectGroup? gotas = mapComponent.tileMap.getLayer<ObjectGroup>("Gotas");
+
+    print("DEBUG: ------>>>>>>>>>>" + estrellas!.objects.toString());
+    for(final estrella in estrellas.objects) {
+
+    }
+
+    Ember jugador = Ember(position: Vector2(200, 200));
     add(jugador);
 
   }
