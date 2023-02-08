@@ -1,0 +1,43 @@
+
+
+
+import 'package:flame/collisions.dart';
+import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
+import 'package:flutter/animation.dart';
+
+import '../Game/MapaJuego.dart';
+
+class Gota extends SpriteAnimationComponent
+    with HasGameRef<MapaJuego> {
+  Gota({
+    required super.position,
+  }) : super(size: Vector2.all(64), anchor: Anchor.bottomCenter);
+
+  @override
+  Future<void> onLoad() async {
+    animation = SpriteAnimation.fromFrameData(
+      game.images.fromCache('water_enemy.png'), //Accede al cache de ember png
+      SpriteAnimationData.sequenced(
+        amount: 2, //Cuantos cortes hay
+        textureSize: Vector2.all(16), //El tamaño del sprite, para recortarlo
+        stepTime: 0.12,
+      ),
+    );
+
+    //Como no tiene tamaño propio se agrega al de la gota
+    add(RectangleHitbox()..collisionType = CollisionType.passive);     //Pasivo solo avisa si colisiona con elemento activo
+
+    add(
+      MoveEffect.by(
+        Vector2(-2 * size.x, 0),
+        EffectController(
+          duration: 3,
+          alternate: true,
+          infinite: true,
+        ),
+      ),
+    );
+
+  }
+}

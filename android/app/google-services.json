@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "926967898105",
+    "project_id": "actividadinterfaces-75991",
+    "storage_bucket": "actividadinterfaces-75991.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926967898105:android:b669bdfc5da51cc7f8a728",
+        "android_client_info": {
+          "package_name": "com.Carlos.juego_actividad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926967898105-uatm7t1j5io573oa8tpbheoj6t7r4t2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDttVgHNPMaJnZTc1WirLKOkK8kHjR4zOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926967898105-uatm7t1j5io573oa8tpbheoj6t7r4t2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
