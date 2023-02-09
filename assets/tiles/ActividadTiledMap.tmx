@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="20">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="21">
  <tileset firstgid="1" source="platformer_32_full.tsx"/>
  <layer id="1" name="Suelo" width="40" height="30">
   <data encoding="csv">
@@ -89,6 +89,9 @@
     <point/>
    </object>
    <object id="15" x="878" y="682">
+    <point/>
+   </object>
+   <object id="20" x="209" y="729">
     <point/>
    </object>
   </objectgroup>

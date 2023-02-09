@@ -1,15 +1,19 @@
 
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
 import 'package:forge2d/src/dynamics/body.dart';
 import 'package:juego_actividad/Scenes/PantallaPrincipal.dart';
 
+import '../Elements/Star.dart';
 import '../Game/MapaJuego.dart';
+import 'Gota.dart';
 class Ember extends SpriteAnimationComponent
-    with HasGameRef<MapaJuego>, KeyboardHandler {
+    with HasGameRef<MapaJuego>, KeyboardHandler, CollisionCallbacks {
   Ember({
     required super.position,
   }) : super(size: Vector2.all(64), anchor: Anchor.center);
@@ -19,6 +23,10 @@ class Ember extends SpriteAnimationComponent
 
   final Vector2 velocity = Vector2.zero();
   final double moveSpeed = 200;
+
+  late CircleHitbox hitbox;
+  bool hitByEnemy = false;
+
 
 
   @override
@@ -31,11 +39,17 @@ class Ember extends SpriteAnimationComponent
         stepTime: 0.12,
       ),
     );
+
+
+    hitbox=CircleHitbox(); //Para guardar y modificar la variable
+    add(
+      hitbox,
+    );
   }
 
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    print("DEBUF: ------>>>>>> PRESION BOTON" +keysPressed.toString()); //ESTO SE VE EN EL F12 DE LA WEB
+    //print("DEBUG: ------>>>>>> PRESION BOTON" +keysPressed.toString()); //ESTO SE VE EN EL F12 DE LA WEB
 
     horizontalDirection = 0;
     verticalDirection = 0;
@@ -55,18 +69,58 @@ class Ember extends SpriteAnimationComponent
         keysPressed.contains(LogicalKeyboardKey.arrowDown))) {
       verticalDirection = 1;
     }
+    
+    game.setDirection(horizontalDirection, verticalDirection);
 
 
     return true;
   }
 
   @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) { //OYHER ES EL OBTRO OBJETO CON EL QUE HE CHOCADO
+    print("DEBUG: COLISION!!!"); //ESTO SE VE EN EL F12 DE LA WEB
+
+    // TODO: implement onCollision
+      if (other is Star) {
+        other.removeFromParent(); //Borra la estrella al tocarla
+        game.starsCollected++;
+      }
+
+      if (other is Gota) {
+        hit();
+      }
+
+    super.onCollision(intersectionPoints, other);
+  }
+
+  void hit() {
+    if (!hitByEnemy) {
+      hitByEnemy = true;
+      add(
+        OpacityEffect.fadeOut(
+          EffectController( //Hace que el personaje aparezca y desaparezca durante seis segundos durante seis segundos
+            alternate: true,
+            duration: 0.1,
+            repeatCount: 6,
+          ),
+        )
+          ..onComplete = () {
+            hitByEnemy = false;
+          },
+      );
+      game.health--;
+    }
+  }
+
+
+  @override
   void update(double dt) {
     // TODO: implement update
     //position.add(Vector2((10.0*horizontalDirection), (10.0*verticalDirection))); //LA FORMA MAS SIMPLE Y TOSCA DE QUE SE MUEVA
-    velocity.x = horizontalDirection * moveSpeed;
-    velocity.y = verticalDirection * moveSpeed;
-    position += velocity * dt; //SI HAY LAG COGE LA DEMORA
+    //velocity.x = horizontalDirection * moveSpeed;
+    //velocity.y = verticalDirection * moveSpeed;
+    //position += velocity * dt; //SI HAY LAG COGE LA DEMORA
+    //game.mapComponent.position -= velocity * dt; //Mueve el mapa
 
     if (horizontalDirection < 0 && scale.x > 0) {
       flipHorizontally();
