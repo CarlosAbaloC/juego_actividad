@@ -36,6 +36,10 @@ class Star extends SpriteComponent with HasGameRef<MapaJuego>, CollisionCallback
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
+
+    if (position.x < -size.x || game.health <= 0) {
+      removeFromParent();
+    }
   }
 
 }

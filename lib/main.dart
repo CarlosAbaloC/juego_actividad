@@ -17,7 +17,7 @@ void main() {
      */
     GameWidget<MapaJuego>.controlled(
       gameFactory: MapaJuego.new,
-      overlayBuilderMap: {
+      overlayBuilderMap: { //Este metodo permite ver una cosa encima de la otra
         'MainMenu': (_, game) => MainMenu(game: game),
         'GameOver': (_, game) => GameOver(game: game),
       },

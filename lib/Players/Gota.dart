@@ -40,4 +40,12 @@ class Gota extends SpriteAnimationComponent
     );
 
   }
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+    if (position.x < -size.x || game.health <= 0) {
+      removeFromParent();
+    }
+  }
 }

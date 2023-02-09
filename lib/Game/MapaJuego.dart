@@ -47,7 +47,10 @@ class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisio
       'water_enemy.png',
     ]);
 
-    initializeGame(true);
+    mapComponent = await TiledComponent.load('ActividadTiledMap.tmx', Vector2(32,32));
+    add(mapComponent);
+
+    //initializeGame(true);
 
   }
 
@@ -69,6 +72,10 @@ class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisio
       objVisual.position -= velocity * dt; //Un menos para que vaya en direccion contraria a tu personaje asi hace el efecto de movimiento
     }
 
+    if (health <= 0) {
+      overlays.add('GameOver');
+    }
+
     super.update(dt);
   }
 
@@ -80,8 +87,10 @@ class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisio
   void initializeGame(bool loadHud) async{
     // Assume that size.x < 3200
 
-    mapComponent = await TiledComponent.load('ActividadTiledMap.tmx', Vector2(32,32));
-    add(mapComponent);
+    objetosVisuales.clear();
+    mapComponent.position=Vector2(0, 0);
+
+
 
     ObjectGroup? estrellas = mapComponent.tileMap.getLayer<ObjectGroup>("Estrellas");
     ObjectGroup? gotas = mapComponent.tileMap.getLayer<ObjectGroup>("Gotas");

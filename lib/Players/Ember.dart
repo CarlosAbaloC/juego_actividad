@@ -128,6 +128,12 @@ class Ember extends SpriteAnimationComponent
       flipHorizontally();
     }
 
+    if (position.x < -size.x || game.health <= 0) {
+      game.setDirection(0, 0);
+      removeFromParent();
+
+    }
+
     super.update(dt);
   }
 
