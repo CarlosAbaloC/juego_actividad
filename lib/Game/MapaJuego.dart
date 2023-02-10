@@ -11,6 +11,7 @@ import '../Elements/Star.dart';
 import '../Overlays/Hud.dart';
 import '../Players/Ember.dart';
 import '../Players/Gota.dart';
+import '../ux/joypad.dart';
 
 class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisionDetection {
 
@@ -131,6 +132,28 @@ class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisio
     starsCollected = 0;
     health = 3;
     initializeGame(false);
+  }
+
+  void joyspadMoved(Direction direction) { //Esta funcion se puede poner en cualquier objeto, para que se muevan por el joypad
+    print("MOVIMIENTO DEL JOYPAD" +direction.toString());
+
+    horizontalDirection=0;
+    verticalDirection=0;
+
+    if(direction==Direction.left) {
+      horizontalDirection = -1;
+    }
+    else if(direction==Direction.right) {
+      horizontalDirection = 1;
+    }
+    if(direction==Direction.up) {
+      verticalDirection = -1;
+    }
+    else if(direction==Direction.down) {
+      verticalDirection = 1;
+    }
+
+    _jugador.horizontalDirection=horizontalDirection; //PARA HACER EL CAMBIO DE DIRECCION DEL PERSONAJE, ASI MUESTRA SI VA A UN LADO U OTRO
   }
 
 }

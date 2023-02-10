@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:juego_actividad/ux/joypad.dart';
 import 'package:juego_actividad/widgets/GameOver.dart';
 import 'package:juego_actividad/widgets/MainMenu.dart';
 
@@ -20,6 +21,8 @@ void main() {
       overlayBuilderMap: { //Este metodo permite ver una cosa encima de la otra
         'MainMenu': (_, game) => MainMenu(game: game),
         'GameOver': (_, game) => GameOver(game: game),
+        'Joypad': (_, game) => Joypad(onDirectionChanged: game.joyspadMoved),
+
       },
       initialActiveOverlays: const ['MainMenu'],
     ),
