@@ -13,9 +13,9 @@ import '../Players/Ember.dart';
 import '../Players/Gota.dart';
 import '../ux/joypad.dart';
 
-class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisionDetection {
+class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollisionDetection {
 
-  MapaJuego();
+
 
 
   late TiledComponent mapComponent;
@@ -30,8 +30,11 @@ class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisio
   int starsCollected = 0;
   int health = 3;
 
-  late Ember _jugador;
+  late EmberBody _emberBody;
   late Ember _jugador2;
+
+
+  MapaJuego(): super(gravity: Vector2(0, 9.8), zoom: 0.75);
 
 
   @override
@@ -117,8 +120,8 @@ class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisio
 
 
 
-    _jugador = Ember(position: Vector2(posPlayerUno!.objects.first.x, posPlayerUno!.objects.first.y));
-    add(_jugador);
+    _emberBody = EmberBody(position: Vector2(posPlayerUno!.objects.first.x, posPlayerUno!.objects.first.y));
+    add(_emberBody);
 
     _jugador2 = Ember(position: Vector2(posPlayerDos!.objects.first.x, posPlayerDos!.objects.first.y));
     add(_jugador2);
@@ -153,7 +156,7 @@ class MapaJuego extends FlameGame with HasKeyboardHandlerComponents, HasCollisio
       verticalDirection = 1;
     }
 
-    _jugador.horizontalDirection=horizontalDirection; //PARA HACER EL CAMBIO DE DIRECCION DEL PERSONAJE, ASI MUESTRA SI VA A UN LADO U OTRO
+    _emberBody.ember.horizontalDirection=horizontalDirection; //PARA HACER EL CAMBIO DE DIRECCION DEL PERSONAJE, ASI MUESTRA SI VA A UN LADO U OTRO
   }
 
 }

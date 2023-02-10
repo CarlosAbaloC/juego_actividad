@@ -12,6 +12,33 @@ import 'package:juego_actividad/Scenes/PantallaPrincipal.dart';
 import '../Elements/Star.dart';
 import '../Game/MapaJuego.dart';
 import 'Gota.dart';
+
+class EmberBody extends BodyComponent<MapaJuego> {
+
+  Vector2 position;
+  late Ember ember;
+
+  EmberBody({required this.position});
+
+  @override
+  Future<void> onLoad() async{
+    // TODO: implement onLoad
+    await super.onLoad();
+    ember=Ember(position: Vector2.zero()); //Lo colocas a cero para que no se duplique la posicion, que si lo pones al 100, 100 de un objeto que esta al 200 200 de la pantalla total
+    add(ember);
+  }
+
+  @override
+  Body createBody() {
+    // TODO: implement createBody
+    BodyDef definicionCuerpo = BodyDef(position: position, type: BodyType.dynamic);
+    Body cuerpo = world.createBody(definicionCuerpo);
+    return cuerpo;
+  }
+
+}
+
+
 class Ember extends SpriteAnimationComponent
     with HasGameRef<MapaJuego>, KeyboardHandler, CollisionCallbacks {
   Ember({
