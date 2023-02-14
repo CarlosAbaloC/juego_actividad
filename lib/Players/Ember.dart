@@ -16,6 +16,7 @@ import 'Gota.dart';
 class EmberBody extends BodyComponent<MapaJuego> {
 
   Vector2 position;
+  Vector2 size = Vector2(64, 64);
   late Ember ember;
 
   EmberBody({required this.position});
@@ -25,7 +26,9 @@ class EmberBody extends BodyComponent<MapaJuego> {
     // TODO: implement onLoad
     await super.onLoad();
     ember=Ember(position: Vector2.zero()); //Lo colocas a cero para que no se duplique la posicion, que si lo pones al 100, 100 de un objeto que esta al 200 200 de la pantalla total
+    ember.size=size;
     add(ember);
+    renderBody=(true); //PARA DIBUJAR LA FORMA DEL OBJETO, NO DEL SPRITE DIBUJADO
   }
 
   @override
@@ -33,17 +36,38 @@ class EmberBody extends BodyComponent<MapaJuego> {
     // TODO: implement createBody
     BodyDef definicionCuerpo = BodyDef(position: position, type: BodyType.dynamic);
     Body cuerpo = world.createBody(definicionCuerpo);
+
+
+    final shape = PolygonShape();
+    final vertices = [
+      Vector2(0, 0),
+      Vector2(64, 0),
+      Vector2(64, 64),
+      Vector2(0, 64)
+    ];
+    shape.set(vertices); //Para que coja el tamaño
+
+    FixtureDef fixtureDef = FixtureDef(shape);
+    cuerpo.createFixture(fixtureDef);
     return cuerpo;
   }
 
+  @override
+    void onMount() {
+      // TODO: implement onMount
+      super.onMount();
+      camera.followBodyComponent(this);
+    }
+
 }
+
 
 
 class Ember extends SpriteAnimationComponent
     with HasGameRef<MapaJuego>, KeyboardHandler, CollisionCallbacks {
   Ember({
     required super.position,
-  }) : super(size: Vector2.all(64), anchor: Anchor.center);
+  }) : super(anchor: Anchor.topLeft);
 
   int horizontalDirection = 0;
   int verticalDirection = 0;
