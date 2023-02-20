@@ -21,7 +21,7 @@ void main() {
       overlayBuilderMap: { //Este metodo permite ver una cosa encima de la otra
         'MainMenu': (_, game) => MainMenu(game: game),
         'GameOver': (_, game) => GameOver(game: game),
-        'Joypad': (_, game) => Joypad(onDirectionChanged: game.joyspadMoved),
+        //'Joypad': (_, game) => Joypad(onDirectionChanged: game.joyspadMoved),
 
       },
       initialActiveOverlays: const ['MainMenu'],

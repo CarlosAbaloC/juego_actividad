@@ -6,6 +6,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:juego_actividad/bodies/GotaBody.dart';
 import 'package:juego_actividad/bodies/SueloBody.dart';
 
 import '../Elements/Star.dart';
@@ -34,8 +35,10 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
   late EmberBody _emberBody;
   late Ember _jugador2;
 
+  //Vector2 vec2PosicionCamera=Vector2(0, 400);
 
-  MapaJuego(): super(gravity: Vector2(0, 9.8), zoom: 0.75); //En el cero si pones gravedad se ira hacia el lado
+
+  MapaJuego(): super(gravity: Vector2(0, 9.8), zoom: 0.75); //En el cero si pones gravedad se ira hacia el lado, y si no pones ninguna coge la gravedad por defecto que es 10
 
 
   @override
@@ -80,6 +83,8 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
 
      */
 
+    //vec2PosicionCamera.add(Vector2(2, 0)); //No va a parar de moverse a la derecha
+
     if (health <= 0) {
       overlays.add('GameOver');
     }
@@ -92,7 +97,7 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
     this.verticalDirection = verticalDirection;
   }
 
-  void initializeGame(bool loadHud) async{
+  Future<void> initializeGame(bool loadHud) async{
     // Assume that size.x < 3200
 
     objetosVisuales.clear();
@@ -126,12 +131,19 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
 
     for(final gota in gotas!.objects) {
       //print("DEBUG: ------>>>>>>>>>>" + estrellas.x.toString() + "    " + gota.y.toString());
-      Gota gotaComponent = Gota(position: Vector2(gota.x, gota.y));
-      objetosVisuales.add(gotaComponent);
+      GotaBody gotaComponent = GotaBody(
+          posXY: Vector2(gota.x, gota.y), //Ubicacion de la gota
+          tamWH: Vector2(64,64) //Tamaño de la gota PARA HACER GOTAS MAS PEQUEÑAS
+      );
+      //objetosVisuales.add(gotaComponent); Estaba para controlar el movimiento de todos los objetos
       add(gotaComponent);
     }
 
     _emberBody = EmberBody(position: Vector2(posPlayerUno!.objects.first.x, posPlayerUno!.objects.first.y));
+
+    //camera.followVector2(vec2PosicionCamera);
+
+    //await add(_emberBody); //Si quieres hacer que la camara le siga desde aqui
     add(_emberBody);
 
     _jugador2 = Ember(position: Vector2(posPlayerDos!.objects.first.x, posPlayerDos!.objects.first.y));
@@ -140,6 +152,7 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
 
     //this.camera.followVector2(_emberBody.position); //Con esto sigue la posicion inicial, no la actualizada del ember, podria valer para hacer el centro del mapa
 
+    //camera.followBodyComponent(_emberBody);
 
     if (loadHud) {
       add(Hud());
@@ -171,7 +184,8 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
       verticalDirection = 1;
     }
 
-    _emberBody.ember.horizontalDirection=horizontalDirection; //PARA HACER EL CAMBIO DE DIRECCION DEL PERSONAJE, ASI MUESTRA SI VA A UN LADO U OTRO
+    //_emberBody.ember.horizontalDirection=horizontalDirection; //PARA HACER EL CAMBIO DE DIRECCION DEL PERSONAJE, ASI MUESTRA SI VA A UN LADO U OTRO
+    _emberBody.horizontalDirection=horizontalDirection; //PARA HACER EL CAMBIO DE DIRECCION DEL PERSONAJE, ASI MUESTRA SI VA A UN LADO U OTRO
   }
 
 }

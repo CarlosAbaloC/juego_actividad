@@ -42,11 +42,11 @@ class MainMenu extends StatelessWidget {
               SizedBox(
                 width: 200,
                 height: 75,
-                child: ElevatedButton(
-                  onPressed: () {
+                child: ElevatedButton (
+                  onPressed: () async {
                     game.overlays.remove('MainMenu');
+                    await game.initializeGame(true);
                     game.overlays.add('Joypad');
-                    game.initializeGame(true);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: whiteTextColor,

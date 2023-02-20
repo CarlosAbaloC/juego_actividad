@@ -12,7 +12,8 @@ class Gota extends SpriteAnimationComponent
     with HasGameRef<MapaJuego> {
   Gota({
     required super.position,
-  }) : super(size: Vector2.all(64), anchor: Anchor.bottomCenter);
+    required super.size,
+  }) : super(anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -28,7 +29,8 @@ class Gota extends SpriteAnimationComponent
     //Como no tiene tamaño propio se agrega al de la gota
     add(RectangleHitbox()..collisionType = CollisionType.passive);     //Pasivo solo avisa si colisiona con elemento activo
 
-    add(
+    /*
+    add( //Para darle movimiento a las gotas
       MoveEffect.by(
         Vector2(-2 * size.x, 0),
         EffectController(
@@ -38,14 +40,14 @@ class Gota extends SpriteAnimationComponent
         ),
       ),
     );
-
+     */
   }
   @override
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
     if (position.x < -size.x || game.health <= 0) {
-      removeFromParent();
+      //removeFromParent();
     }
   }
 }
