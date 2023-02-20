@@ -11,6 +11,9 @@ import '../Game/MapaJuego.dart';
 class GotaBody extends BodyComponent<MapaJuego> {
   Vector2 posXY;
   Vector2 tamWH;
+  double xIni = 0;
+  double xFin = 0;
+  double xContador = 0;
 
   GotaBody({required this.posXY, required this.tamWH}):super();
 
@@ -22,6 +25,8 @@ class GotaBody extends BodyComponent<MapaJuego> {
     Body cuerpo = world.createBody(bodyDef);
     CircleShape shape = CircleShape();
     shape.radius=tamWH.x/2;
+
+    //userData: this //To be able to determine object in collision
     cuerpo.createFixtureFromShape(shape);
     return cuerpo;
   }
@@ -35,6 +40,11 @@ class GotaBody extends BodyComponent<MapaJuego> {
     add(gota);
     print(posXY);
 
+    xIni = posXY.x;
+    xFin = -20; //Desde donde hasta donde se mueve la gota
+
+    renderBody=false;
+    /*
     add(
       MoveEffect.by(
         Vector2(-2 * tamWH.x, 0),
@@ -45,6 +55,20 @@ class GotaBody extends BodyComponent<MapaJuego> {
         ),
       ),
     );
+
+     */
+  }
+
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+    xContador--;
+    if(xContador>=xFin) {
+      xContador = xContador-0.2;
+      center.add(Vector2(xContador, 0));
+    }
+
   }
 
 }

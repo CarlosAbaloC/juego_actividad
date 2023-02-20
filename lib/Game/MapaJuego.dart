@@ -6,6 +6,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:juego_actividad/Players/Player2.dart';
 import 'package:juego_actividad/bodies/GotaBody.dart';
 import 'package:juego_actividad/bodies/SueloBody.dart';
 
@@ -33,12 +34,12 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
   int health = 3;
 
   late EmberBody _emberBody;
-  late Ember _jugador2;
+  late Player2Body _jugador2;
 
   //Vector2 vec2PosicionCamera=Vector2(0, 400);
 
 
-  MapaJuego(): super(gravity: Vector2(0, 9.8), zoom: 0.75); //En el cero si pones gravedad se ira hacia el lado, y si no pones ninguna coge la gravedad por defecto que es 10
+  MapaJuego(): super(gravity: Vector2(0, 2008), zoom: 0.75); //En el cero si pones gravedad se ira hacia el lado, y si no pones ninguna coge la gravedad por defecto que es 10
 
 
   @override
@@ -129,15 +130,18 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
       add(estrellaComponent);
     }
 
+    /*
     for(final gota in gotas!.objects) {
       //print("DEBUG: ------>>>>>>>>>>" + estrellas.x.toString() + "    " + gota.y.toString());
       GotaBody gotaComponent = GotaBody(
           posXY: Vector2(gota.x, gota.y), //Ubicacion de la gota
-          tamWH: Vector2(64,64) //Tamaño de la gota PARA HACER GOTAS MAS PEQUEÑAS
+          tamWH: Vector2(48,48) //Tamaño de la gota PARA HACER GOTAS MAS PEQUEÑAS
       );
       //objetosVisuales.add(gotaComponent); Estaba para controlar el movimiento de todos los objetos
       add(gotaComponent);
     }
+
+     */
 
     _emberBody = EmberBody(position: Vector2(posPlayerUno!.objects.first.x, posPlayerUno!.objects.first.y));
 
@@ -146,7 +150,7 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
     //await add(_emberBody); //Si quieres hacer que la camara le siga desde aqui
     add(_emberBody);
 
-    _jugador2 = Ember(position: Vector2(posPlayerDos!.objects.first.x, posPlayerDos!.objects.first.y));
+    _jugador2 = Player2Body(position: Vector2(posPlayerDos!.objects.first.x, posPlayerDos!.objects.first.y));
     add(_jugador2);
 
 

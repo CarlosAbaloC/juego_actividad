@@ -19,7 +19,7 @@ import 'Gota.dart';
 class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
 
   Vector2 position;
-  Vector2 size = Vector2(64, 64); //PARA HACER EL EMBER MAS PEQUEÑO!!!!!!
+  Vector2 size = Vector2(48, 48); //PARA HACER EL EMBER MAS PEQUEÑO!!!!!!
   late Ember ember;
 
   int horizontalDirection = 0;
@@ -44,7 +44,7 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
     ember.size=size;
 
     add(ember);
-    renderBody=(true); //PARA DIBUJAR LA FORMA DEL OBJETO, NO DEL SPRITE DIBUJADO
+    renderBody=false; //PARA DIBUJAR LA FORMA DEL OBJETO, NO DEL SPRITE DIBUJADO
     //camera.followBodyComponent(this);
 
 
@@ -86,7 +86,7 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
         shape,
       //density: 10.0, //Para darle densidad, si esta en un borde cae
       //friction: 10.0,
-      restitution: 0.5, //El rebote de la colision
+      //restitution: 0.5, //El rebote de la colision
 
     );
     cuerpo.createFixture(fixtureDef);
@@ -97,7 +97,7 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
     void onMount() { //Sirve para asegurarse de que esta cargado
       // TODO: implement onMount
       super.onMount();
-      camera.followBodyComponent(this);
+      //camera.followBodyComponent(this);
     }
 
 
@@ -128,31 +128,33 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
 
     horizontalDirection = 0;
     verticalDirection = 0;
-    if((keysPressed.contains(LogicalKeyboardKey.keyA) || //TIENE AMBAS OPCIONES; TECLADO Y LETRAS
-        keysPressed.contains(LogicalKeyboardKey.arrowLeft))) {
-      horizontalDirection = -1;
-    }
-    else if((keysPressed.contains(LogicalKeyboardKey.keyD) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowRight))) {
-      horizontalDirection = 1;
-    }
-    if((keysPressed.contains(LogicalKeyboardKey.keyW) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowUp))) {
-      verticalDirection = -1;
-    }
-    else if((keysPressed.contains(LogicalKeyboardKey.keyS) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowDown))) {
-      verticalDirection = 1;
-    }
+    if((keysPressed.contains(LogicalKeyboardKey.keyA)) || (keysPressed.contains(LogicalKeyboardKey.keyD)) ||
+        (keysPressed.contains(LogicalKeyboardKey.keyW)) || (keysPressed.contains(LogicalKeyboardKey.keyS))) {
+      if ((keysPressed.contains(LogicalKeyboardKey.keyA))) {
+        horizontalDirection = -1;
+      }
+      else if ((keysPressed.contains(LogicalKeyboardKey.keyD))) {
+        horizontalDirection = 1;
+      }
+      if ((keysPressed.contains(LogicalKeyboardKey.keyW))) {
+        verticalDirection = -1;
+      }
+      else if ((keysPressed.contains(LogicalKeyboardKey.keyS))) {
+        verticalDirection = 1;
+      }
 
-    if(keysPressed.contains(LogicalKeyboardKey.space)) {
-      jumSpeed = 2000;
-    }
-    else {
-      jumSpeed = 0;
-    }
+      if (keysPressed.contains(LogicalKeyboardKey.space)) {
+        jumSpeed = 2000;
+      }
+      else {
+        jumSpeed = 0;
+      }
 
-    game.setDirection(horizontalDirection, verticalDirection);
+      game.setDirection(horizontalDirection, verticalDirection);
+    } else {
+      horizontalDirection =0;
+      verticalDirection =0;
+    }
 
 
     return true;
@@ -186,6 +188,8 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
 
     center.add((velocity * dt)); //Para actualizar la ubicacion pero sin modificar el position
 
+    body.applyLinearImpulse(velocity*dt);
+    body.applyAngularImpulse(3);
 
     if (horizontalDirection < 0 && ember.scale.x > 0) {
       ember.flipHorizontallyAroundCenter();
