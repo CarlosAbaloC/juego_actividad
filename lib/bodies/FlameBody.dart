@@ -1,11 +1,10 @@
 import 'package:flame/components.dart';
+import 'package:flame/components.dart';
 import 'package:juego_actividad/Game/MapaJuego.dart';
 
 import '../Elements/Star.dart';
 import '../bodies/GotaBody.dart';
 import '../ux/joypad.dart';
-import 'Gota.dart';
-import 'Player2.dart';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -15,15 +14,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:forge2d/src/dynamics/body.dart';
 
-import '../ux/joypad.dart';
-import 'Player2.dart';
-
-
-class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, ContactCallbacks{
+class FlameBody extends BodyComponent<MapaJuego> with KeyboardHandler{
 
   Vector2 position;
   Vector2 size=Vector2(48, 48);
-  late Player2 player2;
+  late Flame flame;
   int verticalDirection = 0;
   int horizontalDirection = 0;
   final Vector2 velocity = Vector2.zero();
@@ -31,10 +26,9 @@ class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, Contact
   double jumpSpeed=0;
   double iShowDelay=5;
   bool elementAdded=false;
-  bool hitByEnemy = false;
 
 
-  Player2Body({required this.position});
+  FlameBody({required this.position});
 
   @override
   Future<void> onLoad() async{
@@ -43,9 +37,9 @@ class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, Contact
     //sleep(Duration(mi));
     //Future.delayed(Duration(seconds: 3));
 
-    player2=Player2(position: Vector2.zero());
-    player2.size=size;
-    add(player2);
+    flame=Flame(position: Vector2.zero());
+    flame.size=size;
+    add(flame);
     renderBody=false;
 
     game.overlays.addEntry('Joypad', (_, game) => Joypad(onDirectionChanged:joypadMoved));
@@ -72,41 +66,6 @@ class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, Contact
     cuerpo.createFixture(fixtureDef);
 
     return cuerpo;
-  }
-
-
-  @override
-  void beginContact(Object other, Contact contact) {
-    print("DEBUG: COLISION!!!"); //ESTO SE VE EN EL F12 DE LA WEB
-    super.beginContact(other, contact);
-    // TODO: implement onCollision
-    if (other is Star) {
-      other.removeFromParent(); //Borra la estrella al tocarla
-      game.starsCollected++;
-    }
-
-    if (other is GotaBody) {
-      hit();
-    }
-  }
-
-  void hit() {
-    if (!hitByEnemy) {
-      hitByEnemy = true;
-      add(
-        OpacityEffect.fadeOut(
-          EffectController( //Hace que el personaje aparezca y desaparezca durante seis segundos durante seis segundos
-            alternate: true,
-            duration: 0.1,
-            repeatCount: 6,
-          ),
-        )
-          ..onComplete = () {
-            hitByEnemy = false;
-          },
-      );
-      game.health--;
-    }
   }
 
   @override
@@ -207,13 +166,13 @@ class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, Contact
     body.applyLinearImpulse(velocity*dt);
     body.applyAngularImpulse(3);
 
-    if (horizontalDirection < 0 && player2.scale.x > 0) {
+    if (horizontalDirection < 0 && flame.scale.x > 0) {
       //flipAxisDirection(AxisDirection.left);
       //flipAxis(Axis.horizontal);
-      player2.flipHorizontallyAroundCenter();
-    } else if (horizontalDirection > 0 && player2.scale.x < 0) {
+      flame.flipHorizontallyAroundCenter();
+    } else if (horizontalDirection > 0 && flame.scale.x < 0) {
       //flipAxisDirection(AxisDirection.left);
-      player2.flipHorizontallyAroundCenter();
+      flame.flipHorizontallyAroundCenter();
     }
 
     if (position.x < -size.x || game.healthP2 <= 0) {
@@ -225,14 +184,10 @@ class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, Contact
     super.update(dt);
   }
 
-  void destruir(){
-    removeFromParent();
-  }
-
 }
 
-class Player2 extends SpriteAnimationComponent with HasGameRef<MapaJuego>, CollisionCallbacks {
-  Player2({
+class Flame extends SpriteAnimationComponent with HasGameRef<MapaJuego>, CollisionCallbacks {
+  Flame({
     required super.position,
   }) : super(anchor: Anchor.center);
 

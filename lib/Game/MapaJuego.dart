@@ -6,6 +6,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:juego_actividad/Overlays/Hud2.dart';
 import 'package:juego_actividad/Players/Player2.dart';
 import 'package:juego_actividad/bodies/GotaBody.dart';
 import 'package:juego_actividad/bodies/SueloBody.dart';
@@ -19,8 +20,6 @@ import '../ux/joypad.dart';
 class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollisionDetection {
 
 
-
-
   late TiledComponent mapComponent;
   int horizontalDirection = 0;
   int verticalDirection = 0;
@@ -30,8 +29,12 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
 
   List<PositionComponent> objetosVisuales = [];
 
+  List<GotaBody> gotasBody=[];
+
   int starsCollected = 0;
+  int starsCollectedP2 = 0;
   int health = 3;
+  int healthP2 = 3;
 
   late EmberBody _emberBody;
   late Player2Body _jugador2;
@@ -39,7 +42,7 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
   //Vector2 vec2PosicionCamera=Vector2(0, 400);
 
 
-  MapaJuego(): super(gravity: Vector2(0, 2008), zoom: 0.75); //En el cero si pones gravedad se ira hacia el lado, y si no pones ninguna coge la gravedad por defecto que es 10
+  MapaJuego(): super(gravity: Vector2(0, 9.8), zoom: 0.75); //En el cero si pones gravedad se ira hacia el lado, y si no pones ninguna coge la gravedad por defecto que es 10
 
 
   @override
@@ -86,7 +89,9 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
 
     //vec2PosicionCamera.add(Vector2(2, 0)); //No va a parar de moverse a la derecha
 
-    if (health <= 0) {
+    if ((health <= 0) || (healthP2 <= 0)){
+      _emberBody.destruir();
+      _jugador2.destruir();
       overlays.add('GameOver');
     }
 
@@ -98,13 +103,11 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
     this.verticalDirection = verticalDirection;
   }
 
-  Future<void> initializeGame(bool loadHud) async{
+  void initializeGame(bool loadHud) async{
     // Assume that size.x < 3200
 
     objetosVisuales.clear();
     mapComponent.position=Vector2(0, 0);
-
-
 
     ObjectGroup? estrellas = mapComponent.tileMap.getLayer<ObjectGroup>("Estrellas");
     ObjectGroup? gotas = mapComponent.tileMap.getLayer<ObjectGroup>("Gotas");
@@ -126,11 +129,11 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
     for(final estrella in estrellas!.objects) {
       //print("DEBUG: ------>>>>>>>>>>" + estrellas.x.toString() + "    " + estrella.y.toString());
       Star estrellaComponent = Star(position: Vector2(estrella.x, estrella.y));
-      objetosVisuales.add(estrellaComponent);
+      //objetosVisuales.add(estrellaComponent);
       add(estrellaComponent);
     }
 
-    /*
+
     for(final gota in gotas!.objects) {
       //print("DEBUG: ------>>>>>>>>>>" + estrellas.x.toString() + "    " + gota.y.toString());
       GotaBody gotaComponent = GotaBody(
@@ -139,9 +142,10 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
       );
       //objetosVisuales.add(gotaComponent); Estaba para controlar el movimiento de todos los objetos
       add(gotaComponent);
+      gotasBody.add(gotaComponent);
     }
 
-     */
+
 
     _emberBody = EmberBody(position: Vector2(posPlayerUno!.objects.first.x, posPlayerUno!.objects.first.y));
 
@@ -160,12 +164,15 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
 
     if (loadHud) {
       add(Hud());
+      add(Hud2());
     }
   }
 
   void reset() {
     starsCollected = 0;
     health = 3;
+    starsCollectedP2 = 0;
+    healthP2 = 3;
     initializeGame(false);
   }
 

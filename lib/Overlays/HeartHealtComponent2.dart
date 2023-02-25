@@ -3,16 +3,16 @@
 import 'package:flame/components.dart';
 import 'package:juego_actividad/Game/MapaJuego.dart';
 
-enum HeartState { //El enum es como una lista, no son objetos sino tipos de datos
+enum HeartState {
   available,
   unavailable,
 }
 
-class HeartHealthComponent extends SpriteGroupComponent<HeartState>
+class HeartHealthComponent2 extends SpriteGroupComponent<HeartState>
     with HasGameRef<MapaJuego> {
   final int heartNumber;
 
-  HeartHealthComponent({
+  HeartHealthComponent2({
     required this.heartNumber,
     required super.position,
     required super.size,
@@ -40,18 +40,11 @@ class HeartHealthComponent extends SpriteGroupComponent<HeartState>
       HeartState.unavailable: unavailableSprite,
     };
 
-    current = HeartState.available; //Hace esto por cada uno de los corazones que haya encima de la pantalla
+    current = HeartState.available;
   }
-
   @override
   void update(double dt) {
-    if (game.health < heartNumber) { //No para de preguntar si esta por debajo la cantidad de corazones que el corazon en si para dejarlo en modo oscuro, lo hace a cada uno
-      current = HeartState.unavailable;
-    } else {
-      current = HeartState.available;
-    }
-
-    if (game.healthP2 < heartNumber) { //No para de preguntar si esta por debajo la cantidad de corazones que el corazon en si para dejarlo en modo oscuro, lo hace a cada uno
+    if (game.healthP2 < heartNumber) {
       current = HeartState.unavailable;
     } else {
       current = HeartState.available;

@@ -1,5 +1,6 @@
 
 
+import 'package:flame/collisions.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -8,12 +9,14 @@ import 'package:juego_actividad/Players/Gota.dart';
 
 import '../Game/MapaJuego.dart';
 
-class GotaBody extends BodyComponent<MapaJuego> {
+class GotaBody extends BodyComponent<MapaJuego> with ContactCallbacks {
   Vector2 posXY;
   Vector2 tamWH;
   double xIni = 0;
   double xFin = 0;
   double xContador = 0;
+  double dAnimDireccion=-1;
+  double dVelocidadAnim=1;
 
   GotaBody({required this.posXY, required this.tamWH}):super();
 
@@ -21,7 +24,7 @@ class GotaBody extends BodyComponent<MapaJuego> {
   Body createBody() {
     // TODO: implement createBody
 
-    BodyDef bodyDef = BodyDef(type: BodyType.dynamic, position: posXY); //Crea la definicion del cuerpo
+    BodyDef bodyDef = BodyDef(type: BodyType.dynamic, position: posXY, userData: this); //Crea la definicion del cuerpo //El userData para que colisione
     Body cuerpo = world.createBody(bodyDef);
     CircleShape shape = CircleShape();
     shape.radius=tamWH.x/2;
@@ -42,7 +45,7 @@ class GotaBody extends BodyComponent<MapaJuego> {
 
     xIni = posXY.x;
     xFin = -20; //Desde donde hasta donde se mueve la gota
-
+    xContador = 0;
     renderBody=false;
     /*
     add(
@@ -63,12 +66,31 @@ class GotaBody extends BodyComponent<MapaJuego> {
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
-    xContador--;
-    if(xContador>=xFin) {
-      xContador = xContador-0.2;
-      center.add(Vector2(xContador, 0));
+    if(dAnimDireccion<0){
+      xContador=xContador+dVelocidadAnim;
+      center.sub(Vector2(dVelocidadAnim, dVelocidadAnim));
+    }
+    else{
+      xContador=xContador+dVelocidadAnim;
+      center.add(Vector2(dVelocidadAnim, dVelocidadAnim));
     }
 
+    if(xContador>xFin){
+      xContador=0;
+      dAnimDireccion=dAnimDireccion*-1;
+    }
+
+  }
+
+  void destruir(){
+    removeFromParent();
+    //gameRef.remove(this);
+  }
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    // TODO: implement beginContact
+    super.beginContact(other, contact);
   }
 
 }

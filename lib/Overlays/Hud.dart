@@ -19,6 +19,7 @@ class Hud extends PositionComponent with HasGameRef<MapaJuego> {
   }
 
   late TextComponent _scoreTextComponent;
+  late TextComponent _scoreTextComponent2;
 
   @override
   Future<void>? onLoad() async {
@@ -31,7 +32,7 @@ class Hud extends PositionComponent with HasGameRef<MapaJuego> {
         ),
       ),
       anchor: Anchor.center,
-      position: Vector2(game.size.x - 60, 20),
+      position: Vector2(60, 80),
     );
     add(_scoreTextComponent);
 
@@ -39,7 +40,7 @@ class Hud extends PositionComponent with HasGameRef<MapaJuego> {
     add(
       SpriteComponent(
         sprite: starSprite,
-        position: Vector2(game.size.x - 100, 20),
+        position: Vector2(100, 80),
         size: Vector2.all(32),
         anchor: Anchor.center,
       ),
@@ -51,6 +52,41 @@ class Hud extends PositionComponent with HasGameRef<MapaJuego> {
         HeartHealthComponent(
           heartNumber: i,
           position: Vector2(positionX.toDouble(), 20),
+          size: Vector2.all(32),
+        ),
+      );
+    }
+
+    _scoreTextComponent2 = TextComponent(
+      text: '${game.starsCollected}',
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          fontSize: 32,
+          color: Color.fromRGBO(10, 10, 10, 1),
+        ),
+      ),
+      anchor: Anchor.center,
+      position: Vector2(840, 80),
+    );
+    add(_scoreTextComponent2);
+
+    final starSprite2 = await game.loadSprite('star.png');
+    add(
+      SpriteComponent(
+        sprite: starSprite2,
+        position: Vector2(880, 80),
+        size: Vector2.all(32),
+        anchor: Anchor.center,
+      ),
+    );
+
+    for (var i = 1; i <= game.health; i++) {
+      final positionX = 40 * i;
+      final posGlobal = 800 + positionX;
+      await add(
+        HeartHealthComponent(
+          heartNumber: i,
+          position: Vector2(posGlobal.toDouble(), 20),
           size: Vector2.all(32),
         ),
       );

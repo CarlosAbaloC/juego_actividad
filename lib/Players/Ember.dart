@@ -13,10 +13,11 @@ import 'package:juego_actividad/Scenes/PantallaPrincipal.dart';
 
 import '../Elements/Star.dart';
 import '../Game/MapaJuego.dart';
+import '../bodies/GotaBody.dart';
 import '../ux/joypad.dart';
 import 'Gota.dart';
 
-class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
+class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler, ContactCallbacks{
 
   Vector2 position;
   Vector2 size = Vector2(48, 48); //PARA HACER EL EMBER MAS PEQUEÑO!!!!!!
@@ -30,6 +31,7 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
   double jumSpeed = 0;
   double iShowDelay = 5;
   bool elementAdded = false;
+  bool hitByEnemy = false;
 
   EmberBody({required this.position});
 
@@ -48,7 +50,7 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
     //camera.followBodyComponent(this);
 
 
-    game.overlays.addEntry("Joypad", (_, game) => Joypad(onDirectionChanged: joypadMoved));
+    //game.overlays.addEntry("Joypad", (_, game) => Joypad(onDirectionChanged: joypadMoved));
 
   }
 
@@ -63,19 +65,6 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
     );
     Body cuerpo = world.createBody(definicionCuerpo);
 
-
-    /*
-    final shape = PolygonShape(); //PARA HACER UN RECTANGULO
-    final vertices = [
-      Vector2(0, 0),
-      Vector2(64, 0),
-      Vector2(64, 64),
-      Vector2(0, 64)
-    ];
-    shape.set(vertices); //Para que coja el tamaño
-     */
-
-
     final shape = CircleShape();
     shape.radius = size.x/2;
     //Para hacer el cuerpo fisico del ember circular en vez de cuadrado con vertices
@@ -83,26 +72,62 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
 
 
     FixtureDef fixtureDef = FixtureDef(
-        shape,
+      shape,
       //density: 10.0, //Para darle densidad, si esta en un borde cae
       //friction: 10.0,
-      //restitution: 0.5, //El rebote de la colision
+      userData: this,
+      restitution: 0.5, //El rebote de la colision
 
     );
     cuerpo.createFixture(fixtureDef);
     return cuerpo;
   }
 
+
+
   @override
-    void onMount() { //Sirve para asegurarse de que esta cargado
-      // TODO: implement onMount
-      super.onMount();
-      //camera.followBodyComponent(this);
+  void beginContact(Object other, Contact contact) {
+    print("DEBUG: COLISION!!!"); //ESTO SE VE EN EL F12 DE LA WEB
+    super.beginContact(other, contact);
+    // TODO: implement onCollision
+    if (other is Star) {
+      other.removeFromParent(); //Borra la estrella al tocarla
+      game.starsCollected++;
     }
 
+    if (other is GotaBody) {
+      hit();
+    }
+  }
+
+  void hit() {
+    if (!hitByEnemy) {
+      hitByEnemy = true;
+      add(
+        OpacityEffect.fadeOut(
+          EffectController( //Hace que el personaje aparezca y desaparezca durante seis segundos durante seis segundos
+            alternate: true,
+            duration: 0.1,
+            repeatCount: 6,
+          ),
+        )
+          ..onComplete = () {
+            hitByEnemy = false;
+          },
+      );
+      game.health--;
+    }
+  }
+
+  @override
+    void onMount() { //Sirve para asegurarse de que esta cargado
+      super.onMount();
+      //camera.followBodyComponent(this);
+
+
+    }
 
     void joypadMoved(Direction direction){
-
 
       if(direction==Direction.none) {
         horizontalDirection=0;
@@ -142,13 +167,14 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
       else if ((keysPressed.contains(LogicalKeyboardKey.keyS))) {
         verticalDirection = 1;
       }
-
+      /*
       if (keysPressed.contains(LogicalKeyboardKey.space)) {
         jumSpeed = 2000;
       }
       else {
         jumSpeed = 0;
       }
+       */
 
       game.setDirection(horizontalDirection, verticalDirection);
     } else {
@@ -208,6 +234,10 @@ class EmberBody extends BodyComponent<MapaJuego> with KeyboardHandler{
     super.update(dt);
   }
 
+  void destruir(){
+    removeFromParent();
+  }
+
 }
 
 
@@ -222,8 +252,8 @@ class Ember extends SpriteAnimationComponent
 
 
 
-  late CircleHitbox hitbox;
-  bool hitByEnemy = false;
+  //late CircleHitbox hitbox;
+  //bool hitByEnemy = false;
 
 
 
@@ -242,44 +272,6 @@ class Ember extends SpriteAnimationComponent
     //Ya no se usa
     //hitbox=CircleHitbox(); //Para guardar y modificar la variable
     //add(hitbox,);
-  }
-
-
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) { //OYHER ES EL OBTRO OBJETO CON EL QUE HE CHOCADO
-    print("DEBUG: COLISION!!!"); //ESTO SE VE EN EL F12 DE LA WEB
-
-    // TODO: implement onCollision
-      if (other is Star) {
-        other.removeFromParent(); //Borra la estrella al tocarla
-        game.starsCollected++;
-      }
-
-      if (other is Gota) {
-        hit();
-      }
-
-    super.onCollision(intersectionPoints, other);
-  }
-
-  void hit() {
-    if (!hitByEnemy) {
-      hitByEnemy = true;
-      add(
-        OpacityEffect.fadeOut(
-          EffectController( //Hace que el personaje aparezca y desaparezca durante seis segundos durante seis segundos
-            alternate: true,
-            duration: 0.1,
-            repeatCount: 6,
-          ),
-        )
-          ..onComplete = () {
-            hitByEnemy = false;
-          },
-      );
-      game.health--;
-    }
   }
 
 
