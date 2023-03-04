@@ -23,7 +23,6 @@ void main() {
         'GameOver': (_, game) => GameOver(game: game),
         'Joypad': (_, game) => Joypad(onDirectionChanged: game.joyspadMoved),
 
-        //Pull request
 
       },
       initialActiveOverlays: const ['MainMenu'],
