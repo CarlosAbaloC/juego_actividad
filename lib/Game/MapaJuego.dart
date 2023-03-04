@@ -6,7 +6,6 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:juego_actividad/Overlays/Hud2.dart';
 import 'package:juego_actividad/Players/Player2.dart';
 import 'package:juego_actividad/bodies/GotaBody.dart';
 import 'package:juego_actividad/bodies/SueloBody.dart';
@@ -28,8 +27,6 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
   final double moveSpeed = 200;
 
   List<PositionComponent> objetosVisuales = [];
-
-  List<GotaBody> gotasBody=[];
 
   int starsCollected = 0;
   int starsCollectedP2 = 0;
@@ -103,11 +100,13 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
     this.verticalDirection = verticalDirection;
   }
 
-  void initializeGame(bool loadHud) async{
+  Future<void> initializeGame(bool loadHud) async{
     // Assume that size.x < 3200
 
     objetosVisuales.clear();
     mapComponent.position=Vector2(0, 0);
+
+
 
     ObjectGroup? estrellas = mapComponent.tileMap.getLayer<ObjectGroup>("Estrellas");
     ObjectGroup? gotas = mapComponent.tileMap.getLayer<ObjectGroup>("Gotas");
@@ -129,7 +128,7 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
     for(final estrella in estrellas!.objects) {
       //print("DEBUG: ------>>>>>>>>>>" + estrellas.x.toString() + "    " + estrella.y.toString());
       Star estrellaComponent = Star(position: Vector2(estrella.x, estrella.y));
-      //objetosVisuales.add(estrellaComponent);
+      objetosVisuales.add(estrellaComponent);
       add(estrellaComponent);
     }
 
@@ -142,7 +141,6 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
       );
       //objetosVisuales.add(gotaComponent); Estaba para controlar el movimiento de todos los objetos
       add(gotaComponent);
-      gotasBody.add(gotaComponent);
     }
 
 
@@ -164,7 +162,6 @@ class MapaJuego extends Forge2DGame with HasKeyboardHandlerComponents, HasCollis
 
     if (loadHud) {
       add(Hud());
-      add(Hud2());
     }
   }
 

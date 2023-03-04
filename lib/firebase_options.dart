@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAZxtHmjU3P7Pb9t-YxukrTbotxdck-I-g',
-    appId: '1:926967898105:web:06414cae470a7f4cf8a728',
-    messagingSenderId: '926967898105',
-    projectId: 'actividadinterfaces-75991',
-    authDomain: 'actividadinterfaces-75991.firebaseapp.com',
-    storageBucket: 'actividadinterfaces-75991.appspot.com',
-    measurementId: 'G-L2WF4RCCSY',
+    apiKey: 'AIzaSyADRiw4LdQ_8N7pa03fZLo4La31Sa_nlrk',
+    appId: '1:170148598609:web:cc1f3c6b36623185cfb970',
+    messagingSenderId: '170148598609',
+    projectId: 'juegoactividad',
+    authDomain: 'juegoactividad.firebaseapp.com',
+    storageBucket: 'juegoactividad.appspot.com',
+    measurementId: 'G-RZKLZK1D2S',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDttVgHNPMaJnZTc1WirLKOkK8kHjR4zOM',
-    appId: '1:926967898105:android:b669bdfc5da51cc7f8a728',
-    messagingSenderId: '926967898105',
-    projectId: 'actividadinterfaces-75991',
-    storageBucket: 'actividadinterfaces-75991.appspot.com',
+    apiKey: 'AIzaSyCFQPj6JOEn4uGHFbnkItMiJXGXbm_qByg',
+    appId: '1:170148598609:android:0b97e17bb1a76befcfb970',
+    messagingSenderId: '170148598609',
+    projectId: 'juegoactividad',
+    storageBucket: 'juegoactividad.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBsoMpwzb1GkzBWX622HiFwP-RioF-lL58',
-    appId: '1:926967898105:ios:b3b3d55caf5f5163f8a728',
-    messagingSenderId: '926967898105',
-    projectId: 'actividadinterfaces-75991',
-    storageBucket: 'actividadinterfaces-75991.appspot.com',
-    iosClientId: '926967898105-6okket6rbe355m3rt96misj3m1qttqo9.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAAJ9M3k2C4Ui2Jlz6oBDGln2MXl8ed3CQ',
+    appId: '1:170148598609:ios:48919883aec1799bcfb970',
+    messagingSenderId: '170148598609',
+    projectId: 'juegoactividad',
+    storageBucket: 'juegoactividad.appspot.com',
+    iosClientId: '170148598609-eq9lnjbv45dgvaapvu6f3qih4esbl2e4.apps.googleusercontent.com',
     iosBundleId: 'com.Carlos.juegoActividad',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBsoMpwzb1GkzBWX622HiFwP-RioF-lL58',
-    appId: '1:926967898105:ios:b3b3d55caf5f5163f8a728',
-    messagingSenderId: '926967898105',
-    projectId: 'actividadinterfaces-75991',
-    storageBucket: 'actividadinterfaces-75991.appspot.com',
-    iosClientId: '926967898105-6okket6rbe355m3rt96misj3m1qttqo9.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAAJ9M3k2C4Ui2Jlz6oBDGln2MXl8ed3CQ',
+    appId: '1:170148598609:ios:48919883aec1799bcfb970',
+    messagingSenderId: '170148598609',
+    projectId: 'juegoactividad',
+    storageBucket: 'juegoactividad.appspot.com',
+    iosClientId: '170148598609-eq9lnjbv45dgvaapvu6f3qih4esbl2e4.apps.googleusercontent.com',
     iosBundleId: 'com.Carlos.juegoActividad',
   );
 }

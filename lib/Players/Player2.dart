@@ -48,7 +48,7 @@ class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, Contact
     add(player2);
     renderBody=false;
 
-    game.overlays.addEntry('Joypad', (_, game) => Joypad(onDirectionChanged:joypadMoved));
+    //game.overlays.addEntry('Joypad', (_, game) => Joypad(onDirectionChanged:joypadMoved));
 
   }
 
@@ -68,6 +68,7 @@ class Player2Body extends BodyComponent<MapaJuego> with KeyboardHandler, Contact
       //density: 10.0,
       //friction: 0.2,
       //restitution: 0.5,
+      userData: this, //Detectar colision
     );
     cuerpo.createFixture(fixtureDef);
 

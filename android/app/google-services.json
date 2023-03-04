@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "926967898105",
-    "project_id": "actividadinterfaces-75991",
-    "storage_bucket": "actividadinterfaces-75991.appspot.com"
+    "project_number": "170148598609",
+    "project_id": "juegoactividad",
+    "storage_bucket": "juegoactividad.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:926967898105:android:b669bdfc5da51cc7f8a728",
+        "mobilesdk_app_id": "1:170148598609:android:0b97e17bb1a76befcfb970",
         "android_client_info": {
           "package_name": "com.Carlos.juego_actividad"
         }
       },
       "oauth_client": [
         {
-          "client_id": "926967898105-uatm7t1j5io573oa8tpbheoj6t7r4t2c.apps.googleusercontent.com",
+          "client_id": "170148598609-fj44c7khgcmmknh90t5hg2ft2ctfht9o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDttVgHNPMaJnZTc1WirLKOkK8kHjR4zOM"
+          "current_key": "AIzaSyCFQPj6JOEn4uGHFbnkItMiJXGXbm_qByg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "926967898105-uatm7t1j5io573oa8tpbheoj6t7r4t2c.apps.googleusercontent.com",
+              "client_id": "170148598609-fj44c7khgcmmknh90t5hg2ft2ctfht9o.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "170148598609-eq9lnjbv45dgvaapvu6f3qih4esbl2e4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Carlos.juegoActividad"
+              }
             }
           ]
         }
